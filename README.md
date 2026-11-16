@@ -64,9 +64,9 @@ The named volume keeps uploaded source-document text between container restarts.
 
 ## Render deployment
 
-The public repository includes a free Render Blueprint in `render.yaml`. To create the service, open the [Render Blueprint setup](https://dashboard.render.com/blueprint/new?repo=https://github.com/obul-reddy610/finn-enam-assignment) while signed in to Render and deploy the detected `finn-enam-assignment` service. Verify the deployment at `/health`.
+The free Render service is live at https://finn-enam-assignment.onrender.com/. The public repository includes its Blueprint in `render.yaml`. As of November 16, 2026, the live service has not applied the latest seed/read-only environment settings: its hosted source library is empty and source writes are still enabled. In the Render service dashboard, set `FINN_DATA_DIR=/app/data`, `FINN_SEED_DEMO_SOURCES=true`, and `FINN_ENABLE_SOURCE_WRITES=false`, then redeploy.
 
-The selected free plan has ephemeral storage. The Blueprint re-downloads and indexes the three fixed public Reliance PDFs on each instance start, so startup depends on those source providers being reachable. User uploads and deletions are disabled on the public deployment. Use a paid persistent disk only if durable cloud storage is required.
+The selected free plan has ephemeral storage. Once the Blueprint settings take effect, the app re-downloads and indexes the three fixed public Reliance PDFs on each instance start, so startup depends on those source providers being reachable. Hosted upload and deletion endpoints remain writable until `FINN_ENABLE_SOURCE_WRITES=false` takes effect. Use a paid persistent disk only if durable cloud storage is required.
 
 ## Validation
 
