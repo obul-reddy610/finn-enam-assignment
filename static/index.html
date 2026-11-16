@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FINN — Investment Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="logo-mark">F</div>
+          <div>
+            <div class="eyebrow">ENAM / INVESTOR WORKFLOW</div>
+            <h1>FINN</h1>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="nav-btn active" data-view="push">Push</button>
+          <button class="nav-btn" data-view="pull">Pull</button>
+          <button class="nav-btn" data-view="network">Network</button>
+        </div>
+      </header>
+
+      <div id="dataNotice" class="data-notice" role="status"></div>
+
+      <main class="main-grid">
+        <section class="panel overview-panel">
+          <div class="panel-header">
+            <p class="eyebrow">Portfolio pulse</p>
+            <h2>Today’s watchlist</h2>
+          </div>
+          <div id="overviewCards" class="stat-grid"></div>
+        </section>
+
+        <section class="panel content-panel">
+          <div id="contentArea"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

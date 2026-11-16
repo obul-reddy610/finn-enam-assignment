@@ -1,0 +1,8 @@
+.git
+.venv
+__pycache__
+*.py[cod]
+*.pdf
+*.sqlite3
+data
+tests
