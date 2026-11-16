@@ -31,7 +31,7 @@ The prototype does not automatically ingest BSE announcements or crawl for docum
 
 ## Data flow and privacy
 
-The prototype runs locally. The browser requests data from FastAPI; NSE and Yahoo Finance are contacted for Push or explicit market requests. Uploaded PDF text/metadata is stored in SQLite under `%LOCALAPPDATA%\\FINN` (override with `FINN_DATA_DIR`) rather than in the repository, and users can delete documents. No uploaded PDF binary is retained. There is no account system, tenant isolation, consent workflow, or production access-control implementation. Do not use this prototype with confidential data.
+The prototype runs locally. The browser requests data from FastAPI; NSE and Yahoo Finance are contacted for Push or explicit market requests. Uploaded PDF text/metadata is stored in SQLite under `%LOCALAPPDATA%\\FINN` (override with `FINN_DATA_DIR`) rather than in the repository, and local users can delete documents. No uploaded PDF binary is retained. The public Render Blueprint disables source uploads and deletion; its startup indexes only the three fixed public Reliance sources. There is no account system, tenant isolation, consent workflow, or production access-control implementation. Do not use this prototype with confidential data.
 
 There is no LLM or autonomous agent in the current implementation. Push ranking and network matching are deterministic rules so their behavior is inspectable and costs are zero. A production version would require authenticated, tenant-isolated storage, encryption, consent and deletion workflows, source citations, provider terms review, monitoring, and a documented model/data-retention policy.
 
@@ -66,7 +66,7 @@ The named volume keeps uploaded source-document text between container restarts.
 
 The public repository includes a free Render Blueprint in `render.yaml`. To create the service, open the [Render Blueprint setup](https://dashboard.render.com/blueprint/new?repo=https://github.com/obul-reddy610/finn-enam-assignment) while signed in to Render and deploy the detected `finn-enam-assignment` service. Verify the deployment at `/health`.
 
-The selected free plan has ephemeral storage. The SQLite source library is not included in Git and can be lost when Render restarts or redeploys the service; upload the PDFs again if needed. Use a paid persistent disk only if durable cloud storage is required.
+The selected free plan has ephemeral storage. The Blueprint re-downloads and indexes the three fixed public Reliance PDFs on each instance start, so startup depends on those source providers being reachable. User uploads and deletions are disabled on the public deployment. Use a paid persistent disk only if durable cloud storage is required.
 
 ## Validation
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
@@ -26,6 +27,12 @@ from backend.source_store import (
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+ENABLE_SOURCE_WRITES = os.environ.get("FINN_ENABLE_SOURCE_WRITES", "true").strip().lower() not in {
+    "0",
+    "false",
+    "no",
+    "off",
+}
 
 app = FastAPI(title="FINN — Financial Investment Agent")
 app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
@@ -91,6 +98,11 @@ async def upload_primary_source(
     source_url: str = Form(...),
     file: UploadFile = File(...),
 ) -> dict:
+    if not ENABLE_SOURCE_WRITES:
+        raise HTTPException(
+            status_code=403,
+            detail="Source uploads are disabled on this deployment.",
+        )
     payload = await file.read(MAX_UPLOAD_BYTES + 1)
     await file.close()
     try:
@@ -111,7 +123,11 @@ def get_primary_sources(ticker: str) -> dict:
         sources = list_sources(ticker.upper())
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
-    return {"ticker": ticker.upper(), "sources": sources}
+    return {
+        "ticker": ticker.upper(),
+        "sources": sources,
+        "writes_enabled": ENABLE_SOURCE_WRITES,
+    }
 
 
 @app.get("/api/research/{ticker}/evidence")
@@ -148,6 +164,11 @@ def get_quarterly_results(ticker: str) -> dict:
 
 @app.delete("/api/research/{ticker}/sources/{source_id}", status_code=204)
 def remove_primary_source(ticker: str, source_id: str) -> None:
+    if not ENABLE_SOURCE_WRITES:
+        raise HTTPException(
+            status_code=403,
+            detail="Source deletion is disabled on this deployment.",
+        )
     try:
         deleted = delete_source(ticker.upper(), source_id)
     except ValueError as exc:

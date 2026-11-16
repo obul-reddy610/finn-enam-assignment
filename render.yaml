@@ -5,3 +5,10 @@ services:
     plan: free
     region: singapore
     healthCheckPath: /health
+    envVars:
+      - key: FINN_DATA_DIR
+        value: /app/data
+      - key: FINN_SEED_DEMO_SOURCES
+        value: "true"
+      - key: FINN_ENABLE_SOURCE_WRITES
+        value: "false"

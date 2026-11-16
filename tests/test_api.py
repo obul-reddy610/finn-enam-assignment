@@ -123,6 +123,25 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.json()["available"])
 
+    def test_source_writes_can_be_disabled_for_public_deployments(self) -> None:
+        with patch("backend.main.ENABLE_SOURCE_WRITES", False):
+            upload = self.client.post(
+                "/api/research/RELIANCE.NS/sources",
+                data={
+                    "doc_type": "annual_report",
+                    "title": "Annual report",
+                    "source_url": "https://www.example.com/report.pdf",
+                },
+                files={"file": ("report.pdf", b"%PDF-1.7", "application/pdf")},
+            )
+            delete = self.client.delete("/api/research/RELIANCE.NS/sources/source-id")
+            with patch("backend.main.list_sources", return_value=[]):
+                sources = self.client.get("/api/research/RELIANCE.NS/sources")
+
+        self.assertEqual(upload.status_code, 403)
+        self.assertEqual(delete.status_code, 403)
+        self.assertFalse(sources.json()["writes_enabled"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -402,7 +402,7 @@ function bindSourceWorkspace(ticker) {
         <h3>Primary-source library</h3>
         <span class="demo-label">LOCAL PDF INGESTION</span>
       </div>
-      <p class="muted-copy">Upload a company or exchange PDF, record its public source URL, then search extracted page text. Evidence results include page citations; this prototype does not claim to generate a complete investment thesis from them.</p>
+      <p class="muted-copy">Local builds can upload company or exchange PDFs with public source URLs. Search returns page-cited excerpts; this prototype does not generate a complete investment thesis. The hosted demo is read-only.</p>
       <form id="sourceUploadForm" class="source-form">
         <label>Document type
           <select name="doc_type" required>
@@ -423,6 +423,7 @@ function bindSourceWorkspace(ticker) {
         </label>
         <button class="primary-btn" type="submit">Add source PDF</button>
       </form>
+      <p id="sourceWriteNotice" class="muted-copy" hidden>Uploads and deletion are disabled in this hosted demo. Source documents are read-only here.</p>
       <div id="sourceUploadStatus" class="muted-copy"></div>
       <h3>Added documents</h3>
       <div id="sourceList" class="card-stack"></div>
@@ -474,6 +475,9 @@ async function refreshSourceList(ticker) {
   target.innerHTML = '<div class="empty-state">Loading source documents…</div>';
   try {
     const result = await fetchJson(`/api/research/${encodeURIComponent(ticker)}/sources`);
+  const writesEnabled = result.writes_enabled !== false;
+  document.getElementById('sourceUploadForm').hidden = !writesEnabled;
+  document.getElementById('sourceWriteNotice').hidden = writesEnabled;
     if (!result.sources.length) {
       target.innerHTML = '<div class="empty-state">No primary-source PDFs have been added for this ticker yet.</div>';
       return;
@@ -482,7 +486,7 @@ async function refreshSourceList(ticker) {
       <article class="source-entry">
         <div class="meta-row">
           <span class="badge">${escapeHtml(source.doc_type.replace(/_/g, ' '))}</span>
-          <button class="text-btn" type="button" data-delete-source="${escapeHtml(source.id)}">Delete</button>
+          ${writesEnabled ? `<button class="text-btn" type="button" data-delete-source="${escapeHtml(source.id)}">Delete</button>` : ''}
         </div>
         <a class="source-link" href="${escapeHtml(source.source_url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.title)}</a>
         <p class="eyebrow">${source.page_count} pages · added ${escapeHtml(source.uploaded_at)} · SHA-256 ${escapeHtml(source.sha256.slice(0, 12))}…</p>
