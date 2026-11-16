@@ -21,7 +21,7 @@ I would next expand structured results extraction across issuers and filing layo
 - Public GitHub repository: https://github.com/obul-reddy610/finn-enam-assignment
 - AI build history / session export: [add the actual Copilot session share/export; it is not available yet]
 
-Attach the actual coding-agent session export if you cannot provide a share link. `AI_BUILD_HISTORY.md` is only a summary and is not a substitute for the requested session history.
+Attach your AI build-history Markdown file or provide a share/export link to the actual coding-agent sessions.
 
 Regards,  
 [Your name]

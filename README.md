@@ -97,6 +97,6 @@ API routes:
 
 - Public GitHub repository: https://github.com/obul-reddy610/finn-enam-assignment
 - Deploy the responsive app using the included Render Blueprint; the service URL is still pending.
-- Include the actual AI build-history share/export link requested by ENAM; [AI_BUILD_HISTORY.md](./AI_BUILD_HISTORY.md) is only a handoff summary, not that record.
+- Include the actual AI build history requested by ENAM as a Markdown attachment or session share/export link.
 - Upload and verify primary-source PDFs for the demo companies before describing company analysis as source-grounded.
 - Review and personalize `COVERING_NOTE.md` before emailing the submission.
