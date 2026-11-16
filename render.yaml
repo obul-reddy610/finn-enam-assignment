@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: finn-enam-assignment
+    runtime: docker
+    plan: free
+    region: singapore
+    healthCheckPath: /health

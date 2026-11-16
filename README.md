@@ -62,6 +62,12 @@ docker run --rm -p 8000:8000 -v finn-data:/app/data finn
 
 The named volume keeps uploaded source-document text between container restarts. Configure a persistent volume at `/app/data` on a hosting provider if the source library must survive redeployments.
 
+## Render deployment
+
+The public repository includes a free Render Blueprint in `render.yaml`. To create the service, open the [Render Blueprint setup](https://dashboard.render.com/blueprint/new?repo=https://github.com/obul-reddy610/finn-enam-assignment) while signed in to Render and deploy the detected `finn-enam-assignment` service. Verify the deployment at `/health`.
+
+The selected free plan has ephemeral storage. The SQLite source library is not included in Git and can be lost when Render restarts or redeploys the service; upload the PDFs again if needed. Use a paid persistent disk only if durable cloud storage is required.
+
 ## Validation
 
 ```powershell
@@ -89,8 +95,8 @@ API routes:
 
 ## Submission checklist
 
-- Create and publish a public GitHub repository; this folder is not connected to a remote repository.
-- Deploy the responsive app using the included Dockerfile or provide a phone-friendly way to run it.
-- Include the actual AI build-history share/export links requested by ENAM; [AI_BUILD_HISTORY.md](./AI_BUILD_HISTORY.md) is only a handoff summary, not those records.
+- Public GitHub repository: https://github.com/obul-reddy610/finn-enam-assignment
+- Deploy the responsive app using the included Render Blueprint; the service URL is still pending.
+- Include the actual AI build-history share/export link requested by ENAM; [AI_BUILD_HISTORY.md](./AI_BUILD_HISTORY.md) is only a handoff summary, not that record.
 - Upload and verify primary-source PDFs for the demo companies before describing company analysis as source-grounded.
 - Review and personalize `COVERING_NOTE.md` before emailing the submission.
